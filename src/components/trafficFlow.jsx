@@ -151,7 +151,9 @@ class TrafficFlow extends React.Component {
   beginSampleData () {
     this.traffic = { nodes: [], connections: [] };
     // request.get('sample_data.json')
-    request.get('sample_data_simple.json')
+    // request.get('sample_data_simple.json')
+    request.get('http://localhost:8088/vizgraph2')
+      .withCredentials()
       .set('Accept', 'application/json')
       .end((err, res) => {
         if (res && res.status === 200) {

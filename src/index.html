@@ -6,6 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
   <title>Vizceral</title>
+  <script type="text/javascript">
+    if (false) {
+      var host = window.document.location.host.replace(/:.*/, '');
+      var ws = new WebSocket('ws://' + host + ':8088/echo');
+      ws.onmessage = function(event) {
+        console.log('Got WS message');
+        console.dir(event);
+      }
+      ws.onopen = function(evt) {
+        console.log("WS OPEN");
+        ws.send("NGK");
+      }
+    }
+  </script>
 </head>
 <body>
   <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">

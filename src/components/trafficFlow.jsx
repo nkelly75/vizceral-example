@@ -152,7 +152,25 @@ class TrafficFlow extends React.Component {
     this.traffic = { nodes: [], connections: [] };
     // request.get('sample_data.json')
     // request.get('sample_data_simple.json')
-    request.get('http://localhost:8088/vizgraph2')
+
+    const tFlowComp = this;
+
+    const host = window.document.location.host.replace(/:.*/, '');
+    const ws = new WebSocket(`ws://${host}:8088/vizSocket`);
+    ws.onmessage = function (event) {
+      // console.log('Got WS message');
+      // console.dir(event);
+      if (event && event.data) {
+        const vizJson = JSON.parse(event.data);
+        tFlowComp.traffic.clientUpdateTime = Date.now();
+        tFlowComp.updateData(vizJson);
+      }
+    };
+    ws.onopen = function () {
+      // console.log('WS OPEN');
+    };
+
+    request.get('http://localhost:8088/vizgraph')
       .withCredentials()
       .set('Accept', 'application/json')
       .end((err, res) => {
